@@ -10,8 +10,10 @@ export default class MaskLottery extends React.Component {
     }
     render() {
         return <div className="lottery-mask" onClick={(e) => this.close(e)}>
-            <img width="56%" className="img" src="images/lottery-alertNoMember.png" />
-            <img className="get-now" onClick={() => this.get()} src="images/btn_get-now.png" />
+                <div className="box">
+                    <img width="56%" className="img" src="images/lottery-alertNoMember.png" />
+                    <img className="get-now" onClick={() => this.get()} src="images/btn_get-now.png" />
+                </div>
             <div className="btn-close" >
                 <img src="images/lottery-btn_close.png" />
             </div>
@@ -19,17 +21,22 @@ export default class MaskLottery extends React.Component {
     }
     close(e) {
         if (e.target.className !== "img" && e.target.className !== "get-now") {
+            document.querySelector(".frequency").style.display="block"
             document.querySelector('.lottery-mask').style.display = 'none'
         }
     }
     componentWillMount() {
         var that = this
         new MyAjax({
-            url: '/publish/i_www/resource/lovev/subject/lottery_data.jsp',
+            url: '/wap/resource/migu/subject/lottery_data.jsp',
             callback(data) {
-                var moive = data.find(v => {
-                    return v.name == "相关影片"
-                })
+                var moive
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].name == "相关影片") {
+                        moive = data[i]
+                    }
+
+                }
                 that.setState({ moive, data })
             }
         })
@@ -37,10 +44,17 @@ export default class MaskLottery extends React.Component {
     get() {
         /*/publish/i_www/image/70/209/868.png */
         console.log(this.state)
-        if(!document.querySelector("img.get-now").src.indexOf("images/btn_pay.png")!=-1){
+        if (!document.querySelector("img.get-now").src.indexOf("images/btn_pay.png") != -1) {
+            window.location.href = "http://m.miguvideo.com/wap/resource/migu/VIP/pay_order.jsp"
             return
         }
-        document.querySelector('.lottery-mask').children[0].src = "/publish/i_www/"+this.state.data.find(v=>v.name=="抽奖").detail[1].imgSrc3
+        var src
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].name == "抽奖") {
+                src = data[i].detail[1].imgSrc3
+            }
+        }
+        document.querySelector('.lottery-mask').children[0].src = src
         document.querySelector("img.get-now").style.display = "none"
     }
 }

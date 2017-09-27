@@ -38,77 +38,112 @@ class BtnLottery extends React.Component {
     myPrize() {
         var that = this
         new MyAjax({
-            url: '/publish/i_www/resource/lovev/subject/lottery_data.jsp',
+            url: '/wap/resource/migu/subject/lottery_data.jsp',
             callback(data) {
-                var myinfo = data.find((v) => {
-                    return v.name == "抽奖"
-                })
+                var myinfo
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].name == "抽奖") {
+                        myinfo = data[i]
+                    }
+                }
                 document.querySelector('.lottery-mask-my-prize').style.display = 'block'
+                document.querySelector(".frequency").style.display = "none"
                 that.setState({ data })
             }
         })
     }
     lottery() {
         var that = this
+        var n = document.querySelector(".frequency").innerHTML - 0
+        n--
+        if (n <= -1) {
+            n = 0
+            return alert("次数用完了哦")
+        }
+        document.querySelector(".frequency").innerHTML = n
         new MyAjax({
-            url: '/publish/i_www/resource/lovev/subject/lottery_data.jsp',
+            url: '/wap/resource/migu/subject/lottery_data.jsp',
             callback(data) {
-                that.setState({data})
+                that.setState({ data })
                 new MyAjax({
                     url: "/promactivity/activity/execute",
                     method: "POST",
                     data: `intfId=${that.state.intfId}&imei=${that.state.imei}&sign=${that.state.sign}&from=CMMOVIE&isDefault=0`,
                     callback(data) {
+                        var code = data.code || data.result_code
                         var src
-                        switch (data.code) {
+                        switch (code) {
                             case '1':
                                 //中奖
-                                console.log(that.state.data.find((v)=>v.name=="抽奖"))
-                                src = "/publish/i_www"+that.state.data.find((v)=>v.name=="抽奖").detail[1].imgSrc2
+                                for (var i = 0; i < that.state.data.length; i++) {
+                                    if (that.state.data[i].name == "抽奖") {
+                                        src = that.state.data[i].detail[1].imgSrc2
+                                        break;
+                                    }
+                                }
+
                                 break
                             case '4':
                                 //不是会员
-                                src = "/publish/i_www"+that.state.data.find((v)=>v.name=="抽奖").detail[1].imgSrc4
-                                document.querySelector('.get-now').src = "images/btn_pay.png"
+                                for (var i = 0; i < that.state.data.length; i++) {
+                                    if (that.state.data[i].name == "抽奖") {
+                                        document.querySelector('.get-now').src = "images/btn_pay.png"
+                                        src = that.state.data[i].detail[1].imgSrc4
+                                        break;
+                                    }
+                                }
                                 break
                             case '6':
                                 //没有中奖
-                                src = "/publish/i_www"+that.state.data.find((v)=>v.name=="抽奖").detail[1].imgSrc
-                                document.querySelector('.get-now').src = "images/btn_pay.png"
+                                for (var i = 0; i < that.state.data.length; i++) {
+                                    if (that.state.data[i].name == "抽奖") {
+                                        document.querySelector('.get-now').src = "images/btn_pay.png"
+                                        src = that.state.data[i].detail[1].imgSrc
+                                        break;
+                                    }
+                                }
                                 break
                             case '1014':
                                 //没有登录
-                                var href = window.location.href
-                                document.querySelector('.get-now').src = "images/btn_pay.png"
-                                window.location.href = "https://passport.migu.cn/login?sourceid=203004&apptype=2&forceAuthn=true&isPassive=false&authType=&display=&callbackURL=" + href
+                                for (var i = 0; i < that.state.data.length; i++) {
+                                    if (that.state.data[i].name == "抽奖") {
+                                        var href = window.location.href
+                                        document.querySelector('.get-now').src = "images/btn_pay.png"
+                                        location.href = "https://passport.migu.cn/login?sourceid=203004&apptype=2&forceAuthn=true&isPassive=false&authType=&display=&callbackURL=" + href
+                                        src = that.state.data[i].detail[1].imgSrc4
+                                        break;
+                                    }
+                                }
+
+
                                 break
                             case '1052':
                                 return
                                 break
                         }
-                        document.querySelector('.lottery-mask').style.display = 'block'
                         data.code != 1 ? document.querySelector('.get-now').style.display = "none" : ''
-                        src ? document.querySelector('.lottery-mask').children[0].src = src : ' '
+                        src ? document.querySelector('.lottery-mask').children[0].children[0].src = src : ' '
                         document.querySelector('.get-now').style.display = "block"
+                        document.querySelector('.lottery-mask').style.display = 'block'
                     }
                 })
             }
         })
-        
+
     }
     componentWillMount() {
         this.setState(
             {
                 imei: 10000,
-                key: 'af2a2e7a-03bf-4a1c-a8a6-8566a1dfead9',
-                intfId: '15048635172494859260551162961676'
+                key: 'dcbfe058-b35e-449f-8c4a-5669a2110188',
+                intfId: '15064081689352731303266186574068'
             }
         )
         var that = this
         new MyAjax({
             url: "/promactivity/queryAct/getToken",
             method: "POST",
-            data: "intfId=15051855095140726738774557100302&isDefault=0",
+            data: "intfId=15064081689352731303266186574068&isDefault=0",
             callback(data) {
                 var str = `userId=${data.userId}&intfId=${that.state.intfId}&imei=${that.state.imei}&idfa=&token=${data.tag}&signKey=${that.state.key}`
                 var sign = $.md5(str)
@@ -116,7 +151,7 @@ class BtnLottery extends React.Component {
             }
 
         })
-        
+
     }
     componentDidMount() {
         var img = document.getElementsByClassName('btn-lottery')[0].children[0].children[0]

@@ -6,16 +6,6 @@ export default class Frequency extends React.Component {
         super()
     }
     render(){
-        return <div className="frequency">{(this.state&&this.state.frequency)||''}</div>
-    }
-    
-    componentWillMount (){
-        var that= this
-        /*new MyAjax({
-            url:'',
-            callback(data){
-                that.setState({frequency:data})
-            }
-        })*/
+        return <div className="frequency">3</div>
     }
 }

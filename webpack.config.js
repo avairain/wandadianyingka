@@ -8,7 +8,7 @@ const extractLESS = new ExtractTextWebpackPlugin('css/[name].css')
 // var webpack = require('webpack')
 module.exports = {
     entry: {
-        app: path.join(__dirname, './src/main.js'),
+        app1: path.join(__dirname, './src/main.js'),
         react: ['react'],  //第三方包的名字
         reactDOM: ['react-dom'],
         jquery1: [path.join(__dirname,'./src/js/jquery.md5.js')],
@@ -41,13 +41,13 @@ module.exports = {
         //     'process.env.NODE_ENV': '"production"'  //进一步压缩JS 但效果不明显
         // }),
         // new webpack.optimize.UglifyJsPlugin({
-        //     // commpress:{
-        //     //     warnings:false  //移除警告
-        //     // }
+        //     commpress:{
+        //         warnings:false  //移除警告
+        //     }
         // }),  
         new htmlWebpackPlugin({
             template:"html-withimg-loader!" +  path.join(__dirname, "./src/index.html"),//模版
-            filename: "index.html", //文件名
+            filename: "lottery.jsp", //文件名
             minify: {
                 collapseWhitespace: true, // 合并空白字符
                 removeComments: true, // 移除注释

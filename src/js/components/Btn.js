@@ -36,11 +36,15 @@ class Btn extends React.Component {
     componentWillMount(){
         var that = this
         new MyAjax({
-            url:'/publish/i_www/resource/lovev/subject/lottery_data.jsp',
+            url:'/wap/resource/migu/subject/lottery_data.jsp',
             callback(data){
-                var moive=data.find(v=>{
-                    return v.name=="相关影片"
-                })
+                var moive
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i].name=="相关影片"){
+                        moive=data[i]
+                    }
+                    
+                }
                 that.setState({moive,data})
             }
         })

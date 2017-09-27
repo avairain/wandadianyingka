@@ -14,16 +14,16 @@ class Background extends React.Component {
         var that = this
         var str = ''
         new MyAjax({
-            url: "/publish/i_www/resource/lovev/subject/lottery_data.jsp",
+            url: "/wap/resource/migu/subject/lottery_data.jsp",
             callback(data) {
                 data.forEach((v) => {
                     if (v.detail.length > 2) {
                         v.detail.forEach((v) => {
-                            str += `<img width="100%" src="/publish/i_www${v.imgSrc}">`
+                            str += `<img width="100%" src="${v.imgSrc}">`
                         })
                         return
                     }
-                    str += `<img width="100%" src="/publish/i_www${v.images}">`
+                    str += `<img width="100%" src="${v.images}">`
                 });
                 document.querySelector("section.bg").innerHTML = str
                 var img = document.querySelector('section.bg').children
