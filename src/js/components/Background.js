@@ -19,7 +19,7 @@ class Background extends React.Component {
                 data.forEach((v) => {
                     if (v.detail.length > 2) {
                         v.detail.forEach((v) => {
-                            str += `<img width="100%" src="${v.imgSrc}">`
+                            str += `<img width="100%" onclick="return false" src="${v.imgSrc}">`
                         })
                         return
                     }

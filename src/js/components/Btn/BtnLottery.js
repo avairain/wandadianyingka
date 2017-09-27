@@ -54,13 +54,8 @@ class BtnLottery extends React.Component {
     }
     lottery() {
         var that = this
-        var n = document.querySelector(".frequency").innerHTML - 0
+        var n = 3
         n--
-        if (n <= -1) {
-            n = 0
-            return alert("次数用完了哦")
-        }
-        document.querySelector(".frequency").innerHTML = n
         new MyAjax({
             url: '/wap/resource/migu/subject/lottery_data.jsp',
             callback(data) {
@@ -121,6 +116,11 @@ class BtnLottery extends React.Component {
                                 return
                                 break
                         }
+                        if (n <= -1 && code!="1014") {
+                            n = 0;
+                            return alert("次数用完了哦");
+                        }
+                        document.querySelector(".frequency").innerHTML = n;
                         data.code != 1 ? document.querySelector('.get-now').style.display = "none" : ''
                         src ? document.querySelector('.lottery-mask').children[0].children[0].src = src : ' '
                         document.querySelector('.get-now').style.display = "block"
@@ -135,15 +135,15 @@ class BtnLottery extends React.Component {
         this.setState(
             {
                 imei: 10000,
-                key: 'dcbfe058-b35e-449f-8c4a-5669a2110188',
-                intfId: '15064081689352731303266186574068'
+                key: '3a72b140-d5d9-480d-bf1f-b11523943ebb',
+                intfId: '15065001688055506530264090806290'
             }
         )
         var that = this
         new MyAjax({
             url: "/promactivity/queryAct/getToken",
             method: "POST",
-            data: "intfId=15064081689352731303266186574068&isDefault=0",
+            data: "intfId="+that.state.intfId+"&isDefault=0",
             callback(data) {
                 var str = `userId=${data.userId}&intfId=${that.state.intfId}&imei=${that.state.imei}&idfa=&token=${data.tag}&signKey=${that.state.key}`
                 var sign = $.md5(str)

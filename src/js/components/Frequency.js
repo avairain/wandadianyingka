@@ -8,4 +8,6 @@ export default class Frequency extends React.Component {
     render(){
         return <div className="frequency">3</div>
     }
+    componentWillMount(){
+    }
 }

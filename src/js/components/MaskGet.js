@@ -15,6 +15,7 @@ export default class MaskGet extends React.Component {
         </div>
     }
     close(e){
+        alert(1)
         if(e.target.className!=="img"||e.target.className!=="get-now"){
             document.querySelector(".frequency").style.display="block"
             document.querySelector('.lottery-mask.mask-get').style.display='none'
