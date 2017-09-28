@@ -76,7 +76,6 @@ class BtnLottery extends React.Component {
                                         break;
                                     }
                                 }
-
                                 break
                             case '4':
                                 //不是会员
@@ -113,10 +112,21 @@ class BtnLottery extends React.Component {
 
                                 break
                             case '1052':
-                                return
+                                //非法请求？？？sign不对？
+                                return window.location.reload()
+                                break
+                            case "2003":
+                                // 抽奖限制？
+                                for (var i = 0; i < that.state.data.length; i++) {
+                                    if (that.state.data[i].name == "抽奖") {
+                                        document.querySelector('.get-now').src = "images/btn_pay.png"
+                                        src = that.state.data[i].detail[1].imgSrc1
+                                        break;
+                                    }
+                                }
                                 break
                         }
-                        if (n <= -1 && code!="1014") {
+                        if (n <= -1 && code != "1014") {
                             n = 0;
                             return alert("次数用完了哦");
                         }
@@ -124,6 +134,7 @@ class BtnLottery extends React.Component {
                         data.code != 1 ? document.querySelector('.get-now').style.display = "none" : ''
                         src ? document.querySelector('.lottery-mask').children[0].children[0].src = src : ' '
                         document.querySelector('.get-now').style.display = "block"
+                        code=="2003"?document.querySelector('.get-now').style.display = "none":''
                         document.querySelector('.lottery-mask').style.display = 'block'
                     }
                 })
@@ -143,7 +154,7 @@ class BtnLottery extends React.Component {
         new MyAjax({
             url: "/promactivity/queryAct/getToken",
             method: "POST",
-            data: "intfId="+that.state.intfId+"&isDefault=0",
+            data: "intfId=" + that.state.intfId + "&isDefault=0",
             callback(data) {
                 var str = `userId=${data.userId}&intfId=${that.state.intfId}&imei=${that.state.imei}&idfa=&token=${data.tag}&signKey=${that.state.key}`
                 var sign = $.md5(str)
