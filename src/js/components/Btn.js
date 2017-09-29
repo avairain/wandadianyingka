@@ -11,14 +11,14 @@ import Buy from "./Btn/Buy.js"
 class Btn extends React.Component {
     constructor() {
         super()
-    } 
-    render() { 
-        if(this.state){
-            var moive=this.state.moive
-            var data=this.state.data
+    }
+    render() {
+        if (this.state) {
+            var moive = this.state.moive
+            var data = this.state.data
         }
-        return <div style={{position:'relative',height:this.state&&this.state.height||"0",}}>
-            <BtnLottery />
+        return <div style={{ position: 'relative', height: this.state && this.state.height || "0", }}>
+            <BtnLottery {...this.state}/>
             <Lock {...data}/>
             <Get />
             <Play1  {...moive}/>
@@ -27,27 +27,24 @@ class Btn extends React.Component {
             <Buy />
         </div>
     }
-    componentDidMount(){
+    componentDidMount() {
         var img = document.getElementsByClassName('btn-lottery')[0].children[0].children[0]
         img.onload = () => {
             this.setState({ height: img.height })
         }
     }
-    componentWillMount(){
+    componentWillReceiveProps(n) {
         var that = this
-        new MyAjax({
-            url:'/wap/resource/migu/subject/lottery_data.jsp',
-            callback(data){
-                var moive
-                for (var i = 0; i < data.length; i++) {
-                    if(data[i].name=="相关影片"){
-                        moive=data[i]
-                    }
-                    
-                }
-                that.setState({moive,data})
+        var data = n.data
+        var moive
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].name == "相关影片") {
+                moive = data[i]
             }
-        })
+
+        }
+        that.setState({ moive, data })
     }
 }
 export default Btn

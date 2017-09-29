@@ -37,17 +37,17 @@ module.exports = {
         }),
         extractCSS,
         extractLESS,
-        // new webpack.DefinePlugin({
-        //     'process.env.NODE_ENV': '"production"'  //进一步压缩JS 但效果不明显
-        // }),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     commpress:{
-        //         warnings:false  //移除警告
-        //     }
-        // }),  
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': '"production"'  //进一步压缩JS 但效果不明显
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            commpress:{
+                warnings:false  //移除警告
+            }
+        }),  
         new htmlWebpackPlugin({
             template:"html-withimg-loader!" +  path.join(__dirname, "./src/index.html"),//模版
-            filename: "lottery.jsp", //文件名
+            filename: "index.html", //文件名
             minify: {
                 collapseWhitespace: true, // 合并空白字符
                 removeComments: true, // 移除注释

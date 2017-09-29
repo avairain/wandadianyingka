@@ -25,21 +25,21 @@ export default class MaskLottery extends React.Component {
             document.querySelector('.lottery-mask').style.display = 'none'
         }
     }
+    componentWillReceiveProps(n){
+        var that = this
+        var data = n.data
+        var moive
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].name == "相关影片") {
+                moive = data[i]
+            }
+        }
+        that.setState({ moive, data })
+    
+    }
     componentWillMount() {
         var that = this
-        new MyAjax({
-            url: '/wap/resource/migu/subject/lottery_data.jsp',
-            callback(data) {
-                var moive
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].name == "相关影片") {
-                        moive = data[i]
-                    }
-
-                }
-                that.setState({ moive, data })
-            }
-        })
+        
     }
     get() {
         /*/publish/i_www/image/70/209/868.png */

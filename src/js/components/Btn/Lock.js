@@ -20,6 +20,6 @@ export default class Lock extends React.Component {
             }
         }
         console.log(cid)
-        window.location.href = "http://movie.miguvideo.com/publish/i_www/resource/lovev/miguMovie/detail/detail.jsp?cid=" + cid
+        window.location.href = "http://m.miguvideo.com/wap/resource/migush/detail/Detail.jsp?cid=" + cid
     }
 }

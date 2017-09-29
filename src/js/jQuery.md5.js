@@ -30,7 +30,7 @@
 	 * @return string
 	 */
 	import jQuery from "jquery"
- var $ = jQuery
+        var $ = jQuery
 		var rotateLeft = function(lValue, iShiftBits) {
 			return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 		}

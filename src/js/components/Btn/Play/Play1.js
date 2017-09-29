@@ -12,7 +12,7 @@ export default class Play1 extends React.Component{
     }
     goto(){
         var cid = this.props.detail[0].contId
-        window.location.href="http://movie.miguvideo.com/publish/i_www/resource/lovev/miguMovie/detail/detail.jsp?cid="+cid
+        window.location.href="http://m.miguvideo.com/wap/resource/migush/detail/Detail.jsp?cid="+cid
     }
     componentWillReceiveProps(n){
     }

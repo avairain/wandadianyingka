@@ -18,8 +18,10 @@ export default class MaxkMyPrize extends React.Component {
             </div>
         </div>
     }
-    componentWillMount() {
-        var intfId="15065001688055506530264090806290"
+    componentWillReceiveProps(n) {
+        var that = this
+        var data1 = n.data
+        var intfId = "15065001688055506530264090806290"
         var endDate = ''
         var date = new Date()
         endDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate() - 1}`
@@ -27,39 +29,38 @@ export default class MaxkMyPrize extends React.Component {
         new MyAjax({
             url: '/promactivity/queryAct/getOrders',
             method: "POST",
-            data: "intfId="+intfId+"&isDefault=0&startDate=2017-07-31&endDate=" + endDate,
+            data: "intfId=" + intfId + "&isDefault=0&startDate=2017-07-31&endDate=" + endDate,
             callback(data) {
-                new MyAjax({
-                    url: '/wap/resource/migu/subject/lottery_data.jsp',
-                    callback(data1) {
-                        var moive
-                        for (var i = 0; i < data.length; i++) {
-                            if (data[i].name == "相关影片") {
-                                moive = data[i];
-                            }
-
-                        }
-                        that.setState({ moive, data1 })
-                        data.tag && data.tag.length == 0 ? document.querySelector('.mask-my-prize-get').style.display = "none" : ''
-                        if (data.tag && data.tag.length) {
-                            document.querySelector('.lottery-mask-my-prize').children[0].innerHTML = `
-                            <img width="70%" class="mask-my-prize" src="images/myprize.png" />
-                            <img width="60%" class="prize1" src="images/prize.png">
-                            <img width="60%" class="prize2" src="images/prize.png">
-                            <img class="mask-my-prize-get" onclick="window.location.href = "http://movie.miguvideo.com/lovev/miguMovie/bookTicket/film.jsp"
-                        }" width="36%" src="images/btn_getnow.png" />`
-                        }
+                var moive
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].name == "相关影片") {
+                        moive = data[i];
                     }
-                })
 
+                }
+                that.setState({ moive, data1 })
+                data.tag && data.tag.length == 0 ? document.querySelector('.mask-my-prize-get').style.display = "none" : ''
+                if (data.tag && data.tag.length) {
+                    var img
+                    for (var i = 0; i < 2; i++) {
+                        img += `<img width="60%" class="prize${i + 1}" src="images/prize.png">`
+
+                    }
+                    document.querySelector('.lottery-mask-my-prize').children[0].innerHTML = `
+                    <img width="70%" class="mask-my-prize" src="images/myprize.png" />
+                    ${img}
+                    <img class="mask-my-prize-get" onclick="window.location.href = 'http://movie.miguvideo.com/lovev/miguMovie/bookTicket/film.jsp'" width="36%" src="images/btn_getnow.png" />`
+                }
             }
         })
+    }
+    componentWillMount() {
     }
     componentDidMount() {
         document.querySelector(".lottery-mask-my-prize").style.height = 200 + "px"
     }
     close(e) {
-        var intfId="15065001688055506530264090806290"
+        var intfId = "15065001688055506530264090806290"
         var endDate = ''
         var date = new Date()
         endDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -67,21 +68,25 @@ export default class MaxkMyPrize extends React.Component {
         new MyAjax({
             url: '/promactivity/queryAct/getOrders',
             method: "POST",
-            data: "intfId="+intfId+"&isDefault=0&startDate=2017-07-31&endDate=" + endDate,
+            data: "intfId=" + intfId + "&isDefault=0&startDate=2017-07-31&endDate=" + endDate,
             callback(data) {
                 console.log(data)
                 data.tag && data.tag.length == 0 ? document.querySelector('.mask-my-prize-get').style.display = "none" : ''
                 if (data.tag && data.tag.length) {
+                    var img
+                    for (var i = 0; i < 2; i++) {
+                        img += `<img width="60%" class="prize${i + 1}" src="images/prize.png">`
+
+                    }
                     document.querySelector('.lottery-mask-my-prize').children[0].innerHTML = `
                     <img width="70%" class="mask-my-prize" src="images/myprize.png" />
-                    <img width="60%" class="prize1" src="images/prize.png">
-                    <img width="60%" class="prize2" src="images/prize.png">
+                    ${img}
                     <img class="mask-my-prize-get" onclick="window.location.href = 'http://movie.miguvideo.com/lovev/miguMovie/bookTicket/film.jsp'" width="36%" src="images/btn_getnow.png" />`
                 }
             }
         })
-        if (!(e.target.className == "mask-my-prize" || e.target.className == "mask-my-prize-get"||e.target.className == "prize2"||e.target.className == "prize1")) {
-            document.querySelector(".frequency").style.display="block"
+        if (!(e.target.className == "mask-my-prize" || e.target.className == "mask-my-prize-get" || e.target.className == "prize2" || e.target.className == "prize1")) {
+            document.querySelector(".frequency").style.display = "block"
             document.querySelector(".lottery-mask-my-prize").style.display = "none"
         }
     }
